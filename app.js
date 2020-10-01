@@ -31,18 +31,20 @@ function renderCafe(element){
 // gets the cafes
 function searchCafes(search){
     if (search=='') {
-        return database.collection('cafes').get().then((snapshot)=>{
+         database.collection('cafes').orderBy('name').get().then((snapshot)=>{
+            snapshot.docs.forEach(element => {
+                renderCafe(element)
+            });
+        })
+    }
+    else {
+        database.collection('cafes').orderBy('name').where('city','==',search).get().then((snapshot)=>{
             snapshot.docs.forEach(element => {
                 renderCafe(element)
             });
         })
     }
 
-    database.collection('cafes').where('city','==',search).get().then((snapshot)=>{
-        snapshot.docs.forEach(element => {
-            renderCafe(element)
-        });
-    })
 }
 
 // saves the data
