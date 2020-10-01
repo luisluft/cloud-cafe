@@ -1,5 +1,6 @@
 const cafe_list = document.querySelector('#cafe-list')
 const cafe_form = document.querySelector('#add-cafe-form')
+const search_form = document.querySelector('#search-form')
 
 // create element and render cafe
 function renderCafe(element){
@@ -27,13 +28,22 @@ function renderCafe(element){
     })
 
 }
-
 // gets the cafes
-database.collection('cafes').get().then((snapshot)=>{
-    snapshot.docs.forEach(element => {
-        renderCafe(element)
-    });
-})
+function searchCafes(search){
+    if (search=='') {
+        return database.collection('cafes').get().then((snapshot)=>{
+            snapshot.docs.forEach(element => {
+                renderCafe(element)
+            });
+        })
+    }
+
+    database.collection('cafes').where('city','==',search).get().then((snapshot)=>{
+        snapshot.docs.forEach(element => {
+            renderCafe(element)
+        });
+    })
+}
 
 // saves the data
 cafe_form.addEventListener('submit',(e)=>{
@@ -45,4 +55,13 @@ cafe_form.addEventListener('submit',(e)=>{
 
     cafe_form.name.value=''
     cafe_form.city.value=''
+})
+
+// searches the data
+search_form.addEventListener('submit',(e)=>{
+    
+    e.preventDefault();
+    while(cafe_list.firstChild) cafe_list.removeChild(cafe_list.firstChild);
+    let search = search_form.search.value
+    searchCafes(search)
 })
