@@ -1,55 +1,47 @@
 <html>
-    <head>
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+  <head>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
 
-        <!-- TODO: Add SDKs for Firebase products that you want to use
+    <!-- TODO: Add SDKs for Firebase products that you want to use
             https://firebase.google.com/docs/web/setup#available-libraries -->
-        <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-analytics.js"></script>
 
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Cloud Cafe</h1>
 
-        <h1>Cloud Cafe</h1>
+    <div class="content">
+      <form id="add-cafe-form">
+        <input type="text" name="name" placeholder="Cafe's name" />
+        <input type="text" name="city" placeholder="Cafe's city" />
+        <button>Add cafe</button>
+      </form>
 
-        <div class="content">
+      <ul id="cafe-list"></ul>
+    </div>
 
-            <form id="add-cafe-form">                
-                <input type="text" name="name" placeholder="Cafe's name">
-                <input type="text" name="city" placeholder="Cafe's city">
-                <button>Add cafe</button>
-            </form>
-            
-            <form id="search-form">                
-                <input type="text" name="search" placeholder="city ">
-                <button>Search</button>
-            </form>
+    <script>
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      var firebaseConfig = {
+        apiKey: "AIzaSyDc4xBK261Q-JGrvrtazq2rmcF216xtOKA",
+        authDomain: "cloud-cafe-9b13f.firebaseapp.com",
+        databaseURL: "https://cloud-cafe-9b13f.firebaseio.com",
+        projectId: "cloud-cafe-9b13f",
+        storageBucket: "cloud-cafe-9b13f.appspot.com",
+        messagingSenderId: "1058157257301",
+        appId: "1:1058157257301:web:0d12e38b3f845989b12adc",
+        measurementId: "G-TV5HP54NHG",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
 
-            <ul id="cafe-list"></ul>
-
-        </div>
-
-        <script>
-            // Your web app's Firebase configuration
-            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-            var firebaseConfig = {
-                apiKey: "AIzaSyDc4xBK261Q-JGrvrtazq2rmcF216xtOKA",
-                authDomain: "cloud-cafe-9b13f.firebaseapp.com",
-                databaseURL: "https://cloud-cafe-9b13f.firebaseio.com",
-                projectId: "cloud-cafe-9b13f",
-                storageBucket: "cloud-cafe-9b13f.appspot.com",
-                messagingSenderId: "1058157257301",
-                appId: "1:1058157257301:web:0d12e38b3f845989b12adc",
-                measurementId: "G-TV5HP54NHG"
-            };
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
-            firebase.analytics();
-
-            const database = firebase.firestore();
-        </script>
-        <script src="app.js"></script>
-    </body>
+      const database = firebase.firestore();
+    </script>
+    <script src="app.js"></script>
+  </body>
 </html>

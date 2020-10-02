@@ -1,69 +1,56 @@
-const cafe_list = document.querySelector('#cafe-list')
-const cafe_form = document.querySelector('#add-cafe-form')
-const search_form = document.querySelector('#search-form')
+const cafe_list = document.querySelector("#cafe-list");
+const cafe_form = document.querySelector("#add-cafe-form");
 
 // create element and render cafe
-function renderCafe(element){
-    let li = document.createElement('li')
-    let name = document.createElement('span')
-    let city = document.createElement('span')
-    let cross = document.createElement('div')
+function renderCafe(element) {
+  let li = document.createElement("li");
+  let name = document.createElement("span");
+  let city = document.createElement("span");
+  let cross = document.createElement("div");
 
-    li.setAttribute('data-id',element.id)
-    name.textContent = element.data().name
-    city.textContent = element.data().city
-    cross.textContent = 'x'
+  li.setAttribute("data-id", element.id);
+  name.textContent = element.data().name;
+  city.textContent = element.data().city;
+  cross.textContent = "x";
 
-    li.appendChild(name)
-    li.appendChild(city)
-    li.appendChild(cross)
+  li.appendChild(name);
+  li.appendChild(city);
+  li.appendChild(cross);
 
-    cafe_list.appendChild(li)
+  cafe_list.appendChild(li);
 
-    // delets the cafe
-    cross.addEventListener('click',(e)=>{
-        e.stopPropagation()
-        let id = e.target.parentElement.getAttribute('data-id')
-        database.collection('cafes').doc(id).delete()
-    })
-
-}
-// gets the cafes
-function searchCafes(search){
-    if (search=='') {
-         database.collection('cafes').orderBy('name').get().then((snapshot)=>{
-            snapshot.docs.forEach(element => {
-                renderCafe(element)
-            });
-        })
-    }
-    else {
-        database.collection('cafes').orderBy('name').where('city','==',search).get().then((snapshot)=>{
-            snapshot.docs.forEach(element => {
-                renderCafe(element)
-            });
-        })
-    }
-
+  // delets the cafe
+  cross.addEventListener("click", (e) => {
+    e.stopPropagation();
+    let id = e.target.parentElement.getAttribute("data-id");
+    database.collection("cafes").doc(id).delete();
+  });
 }
 
 // saves the data
-cafe_form.addEventListener('submit',(e)=>{
-    e.preventDefault();
-    database.collection('cafes').add({
-        name: cafe_form.name.value,
-        city: cafe_form.city.value
-    })
+cafe_form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  database.collection("cafes").add({
+    name: cafe_form.name.value,
+    city: cafe_form.city.value,
+  });
 
-    cafe_form.name.value=''
-    cafe_form.city.value=''
-})
+  cafe_form.name.value = "";
+  cafe_form.city.value = "";
+});
 
-// searches the data
-search_form.addEventListener('submit',(e)=>{
-    
-    e.preventDefault();
-    while(cafe_list.firstChild) cafe_list.removeChild(cafe_list.firstChild);
-    let search = search_form.search.value
-    searchCafes(search)
-})
+// real time data with listener
+database
+  .collection("cafes")
+  .orderBy("name")
+  .onSnapshot((snapshot) => {
+    let changes = snapshot.docChanges();
+    changes.forEach((change) => {
+      if (change.type == "added") {
+        renderCafe(change.doc);
+      } else if (change.type == "removed") {
+        let li = cafe_list.querySelector("[data-id=" + change.doc.id + "]");
+        cafe_list.removeChild(li);
+      }
+    });
+  });
