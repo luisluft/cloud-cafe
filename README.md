@@ -1,4 +1,3 @@
-# firebase-firestore-playlist
-All course files for the Firebase Firestore playlist on The Net Ninja YouTube channel. 
-
-Make sure you select the correct branch to see the files :)
+# Firebase Firestore mini project
+Mini project developed to learn firebase firestore following Net Ninja's tutorial at:
+https://www.youtube.com/playlist?list=PL4cUxeGkcC9itfjle0ji1xOZ2cjRGY_WB
