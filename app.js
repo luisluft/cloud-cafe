@@ -54,3 +54,9 @@ database
       }
     });
   });
+
+// example of updating data
+database
+  .collection("cafes")
+  .doc("PvIEysz7PrymZmkNVJ2w")
+  .update({ name: "Camilla's Coffe" });
